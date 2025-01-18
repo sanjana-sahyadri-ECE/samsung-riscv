@@ -22,6 +22,10 @@ B. The RISC-V object dump of -Ofast
 ![ofast](https://github.com/user-attachments/assets/df1ea6fb-49e0-4ab7-8aba-887a424f8b78)
 C. The RISC-V object dump of -O1
 ![o1](https://github.com/user-attachments/assets/1433c293-12df-4327-85c3-5b7d9369c4fd)
+## Task 3
+From the riscv-objdump of application code , identification of 15 unique RISCV Iinstruction
+![Screenshot 2025-01-18 213136](https://github.com/user-attachments/assets/7c13b047-18d6-4e2e-9455-43f25533e203)
+
 
 
 
