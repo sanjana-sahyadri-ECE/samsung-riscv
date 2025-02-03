@@ -25,6 +25,14 @@ C. The RISC-V object dump of -O1
 ## Task 3
 From the riscv-objdump of application code , identification of 15 unique RISCV Iinstruction
 ![Screenshot 2025-01-18 213136](https://github.com/user-attachments/assets/7c13b047-18d6-4e2e-9455-43f25533e203)
+## Task 4
+creating waveform for the given simulation using verilog netlist from RISC-V core verilog Netlist.
+![Screenshot 2025-01-21 225633](https://github.com/user-attachments/assets/a939872d-e946-4b93-a91e-a253c081e50c)
+![Screenshot 2025-01-21 225046](https://github.com/user-attachments/assets/a5ead509-1f72-4bbe-8004-be2a531b1675)
+
+
+
+ 
 
 
 
