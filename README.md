@@ -25,73 +25,84 @@ C. The RISC-V object dump of -O1
 ## Task 3
 From the riscv-objdump of application code , identification of 15 unique RISCV Iinstruction
 ![Screenshot 2025-01-18 213136](https://github.com/user-attachments/assets/7c13b047-18d6-4e2e-9455-43f25533e203)
+![1000235946 (1)](https://github.com/user-attachments/assets/f3fe2d4d-a1e5-4ee2-988d-8a009f0e48d1)
+![1000235948](https://github.com/user-attachments/assets/52ae017a-b78d-437e-8c73-6fc06776ab11)
+
 ## Task 4
 creating waveform for the given simulation using verilog netlist from RISC-V core verilog Netlist.
 ![Screenshot 2025-01-21 225633](https://github.com/user-attachments/assets/a939872d-e946-4b93-a91e-a253c081e50c)
 ![Screenshot 2025-01-21 225046](https://github.com/user-attachments/assets/a5ead509-1f72-4bbe-8004-be2a531b1675)
 ## Task 5
-## Automatic irrigation system 
+## Automatic light system 
 ### Overview
-An Automatic Irrigation System using a RISC-V Board is designed to efficiently manage water supply to plants based on soil moisture levels, reducing water wastage and manual effort. The system uses sensors to monitor soil moisture and environmental conditions, then controls a water pump accordingly. The RISC-V board acts as the central processing unit, processing sensor data and automating irrigation.
+An automatic light system is a setup designed to automatically control the lighting based on the presence or absence of individuals within its detection range. This system will also give the indication of motion detected by blinking the led 3 times.
 ### Components required
-1. RISC-V Board (e.g., HiFive1, BeagleV, or Sipeed Longan Nano)<br>
-2. Soil Moisture Sensor – Detects soil moisture levels <br>
-3. Relay Module – Controls the water pump based on sensor data <br>
-4. Water Pump – Supplies water when needed<br>
-5. Bluetooth Module (HC-05 or HC-06) – Enables wireless communication<br>
-6. Power Supply (5V/12V, depending on pump requirements)<br>
-7. Resistors, Capacitors, Jumper Wires, and Breadboard – For connections
-![IMG-20250203-WA0025](https://github.com/user-attachments/assets/e6dfb9e2-58ff-4015-bd6c-04b5d943b018)
-### Pin-by-Pin Explanation of the Circuit
-#### 1. Soil Moisture Sensor:
-VCC (Power): Connected to the 3.3V or 5V pin of the RISC-V board (depending on the sensor).<br>
-GND (Ground): Connected to the GND pin of the RISC-V board.<br>
-Analog Output: Connected to an analog input pin (A0) on the RISC-V board to send soil moisture data.<br>
-#### 2. RISC-V Board<br>
-Acts as the brain of the system. Below are the critical pins used:<br>
-A0 (Analog Input): Receives the signal from the soil moisture sensor<br>
-Digital Pin 7 (Relay Control): Sends a HIGH/LOW signal to control the relay.<br>
-TX Pin (Transmit): Connected to the RX (Receive) pin of the Bluetooth module for communication.<br>
-RX Pin (Receive): Connected to the TX (Transmit) pin of the Bluetooth module for communication.<br>
-3.3V or 5V Pin: Powers the soil moisture sensor and Bluetooth module.<br>
-GND Pin: Common ground for all connected components.<br>
-#### 3. HC-05 Bluetooth Module:<br>
-VCC (Power): Connected to the 5V pin of the RISC-V board. <br>
-GND (Ground): Connected to the GND pin of the RISC-V board. <br>
-TX (Transmit): Connected to the RX Pin of the RISC-V board for transmitting data to the board. <br>
-RX (Receive): Connected to the TX Pin of the RISC-V board for receiving data from the board.<br>
-#### 4. Relay Module:
-VCC (Power): Connected to the 5V pin of the RISC-V board.<br>
-GND (Ground): Connected to the GND pin of the RISC-V board.<br>
-Signal (Control Input): Connected to Digital Pin 7 of the RISC-V board. When this pin is HIGH, the relay is activated.<br>
-COM (Common Terminal): Connected to one terminal of the power source for the water pump (230V AC).<br>
-NO (Normally Open): Connected to one terminal of the water pump. When the relay is activated, this closes the circuit and powers the pump.<br>
-#### 5. Water Pump:
-Input Terminal 1: Connected to the NO terminal of the relay.<br>
-Input Terminal 2: Connected to the neutral wire of the AC power source (230V, 50Hz).<br>
-The pump turns on or off based on the relay’s state.<br>
-#### 6. Power Connections:
-The RISC-V board, soil sensor, and Bluetooth module use a 5V DC supply.<br>
-The relay and water pump are powered by 230V AC (high voltage).<br>
-#### Working Explanation
-*The soil sensor measures the soil moisture level and sends an analog signal (voltage) to A0 on the RISC-V board.<br>
-*The RISC-V board processes the signal:<br>
-*If the soil moisture is below the threshold, it sends a HIGH signal to Pin 7, activating the relay and turning on the water pump.<br>
-*If the soil moisture is above the threshold, it sends a LOW signal to Pin 7, deactivating the relay and turning off the pump.<br>
-*The Bluetooth module (HC-05) enables manual control via a mobile device:<br>
-*Sending '1' through Bluetooth will turn the pump ON (activates the relay).<br>
-*Sending '0' through Bluetooth will turn the pump OFF (deactivates the relay).<br>
-*The relay module acts as a switch, isolating the low-voltage control system (RISC-V) from the high-voltage power supply to the pump.<br>
+1. VSDSquadron Mini Board
+2. IR Sensor
+3. LEDs
+4. Bread Board
+5. USB Cable
+6. Jumper Wires
+![WhatsApp Image 2025-02-26 at 5 57 05 PM (1)](https://github.com/user-attachments/assets/18cd6a57-8ce9-4863-9dd1-071f0d715b6e)
+### Pin Diagram
+IR SENSOR, LED	VSD SQUADRON BOARD
+VCC OF IR	3.2V
+GND OF IR	GND
+OUT OF IR	PIN 4
+LED	PIN 6
+###Working
+The IR sensor is strategically placed in a location where it can detect the movement of individuals within its sensing range.
+The IR sensor continuously monitors its surroundings for any changes in infrared radiation caused by the movement of individuals.
+When someone enters the detection range of the IR sensor, it detects the change in radiation and triggers an output signal.
+When the IR sensor detects motion, it sends a signal to the microcontroller which then activates the LED lighting system. The LED lights up, providing illumination and the led will blink 3 times in the area where motion is detected which gives indication of motion detected.
+### code
+//These include the necessary header files (ch32v00x.h and debug.h) for the CH32V microcontroller and debugging purposes.
+#include <ch32v00x.h>
+#include <debug.h>
+//pin configuration
+void GPIO_Config(void)
+{
+GPIO_InitTypeDef GPIO_InitStructure = {0}; //structure variable GPIO_InitStructure of type GPIO_InitTypeDef which is used for GPIO configuration.
 
+RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE); // to Enable the clock for Port D
+//pin 4 OUT PIN FOR IR SENSOR
+GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 ; // Defines which Pin to configure
+GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // Defines Output Type
+GPIO_Init(GPIOD, &GPIO_InitStructure);
+//pin 6 IS LED PIN
+GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 ; //
+GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Defines Output Type
+GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // Defines speed
 
+GPIO_Init(GPIOD, &GPIO_InitStructure);
 
+}
+//main function
 
- 
+int main(void)
+{
+uint8_t IR = 0;
+uint8_t set=1;
+uint8_t reset=0;
+uint8_t a=0;
+NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);// Configuring NVIC priority group
+SystemCoreClockUpdate();// Update System Core Clock
+Delay_Init();//Initialize Delay
+GPIO_Config();//Call GPIO configuration function
 
+while(1)
+{
+IR = GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_4);
+if (IR==1)//Read state of Pin 4 (IR sensor)
+{ // for blinking of led three times upon motion detection
+	for(a=0;a<3;a++){
+GPIO_WriteBit(GPIOD, GPIO_Pin_6, set);
+Delay_Ms(200);
+GPIO_WriteBit(GPIOD, GPIO_Pin_6,reset);
+Delay_Ms(100);}
 
+}
 
-
-
-
-
+}
+}
 
