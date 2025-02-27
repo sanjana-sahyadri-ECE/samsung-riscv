@@ -57,24 +57,33 @@ The program then sets PA0 LOW to turn the LED OFF.
 Another delay is added.
 This cycle repeats indefinitely, creating a blinking effect.
 ### C code  
-#include <stdint.h>
-#include "vsd_delay.h"
-#include "vsd_gpio.h"
+#include <ch32v00x.h>  
+#include <debug.h>  
 
-#define LED_PIN 13 // Change this pin number based on your board's LED connection
+void GPIO_Config(void) {
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
 
-void main() {
-    // Configure LED pin as output
-    GPIO_SetMode(LED_PIN, GPIO_MODE_OUTPUT);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE); // Enable clock for Port C
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4; // Use PC4 for LED
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Push-pull output
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // Set speed
+    GPIO_Init(GPIOC, &GPIO_InitStructure); // Initialize GPIO
+}
+
+int main(void) {
+    SystemCoreClockUpdate(); // Update system clock
+    Delay_Init(); // Initialize delay functions
+    GPIO_Config(); // Configure GPIO
 
     while (1) {
-        GPIO_Write(LED_PIN, 1); // Turn LED ON
-        delay_ms(500); // Wait for 500ms
-
-        GPIO_Write(LED_PIN, 0); // Turn LED OFF
-        delay_ms(500); // Wait for 500ms
+        GPIO_WriteBit(GPIOC, GPIO_Pin_4, Bit_SET); // Turn LED ON
+        Delay_Ms(500); // Wait 500ms
+        GPIO_WriteBit(GPIOC, GPIO_Pin_4, Bit_RESET); // Turn LED OFF
+        Delay_Ms(500); // Wait 500ms
     }
 }
+
 ## Task 6
 Demostration of LED BLINKING PROJECT USING VSDSUADRON MINI BOARD
 
