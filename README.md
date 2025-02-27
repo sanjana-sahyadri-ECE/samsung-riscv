@@ -33,76 +33,54 @@ creating waveform for the given simulation using verilog netlist from RISC-V cor
 ![Screenshot 2025-01-21 225633](https://github.com/user-attachments/assets/a939872d-e946-4b93-a91e-a253c081e50c)
 ![Screenshot 2025-01-21 225046](https://github.com/user-attachments/assets/a5ead509-1f72-4bbe-8004-be2a531b1675)
 ## Task 5
-## Automatic light system 
+## LED Blinking Project using VSDSquadron Mini (RISC-V Board)
 ### Overview
-An automatic light system is a setup designed to automatically control the lighting based on the presence or absence of individuals within its detection range. This system will also give the indication of motion detected by blinking the led 3 times.
+This project demonstrates how to blink an LED using the VSDSquadron Mini, a RISC-V-based development board. The LED will turn ON and OFF at regular intervals, controlled by a simple delay loop in the firmware.
 ### Components required
-1. VSDSquadron Mini Board
-2. IR Sensor
-3. LEDs
-4. Bread Board
-5. USB Cable
-6. Jumper Wires
-![WhatsApp Image 2025-02-26 at 5 57 05 PM (1)](https://github.com/user-attachments/assets/18cd6a57-8ce9-4863-9dd1-071f0d715b6e)
+VSDSquadron Mini	
+LED	
+Resistor (330Ω)	
+Breadboard	
+Jumper Wires	
+USB Type-C Cable
+![task66](https://github.com/user-attachments/assets/622c5075-5c99-480b-bc4f-da5fbd54c255)
 ### Pin Diagram
-IR SENSOR, LED	VSD SQUADRON BOARD
-VCC OF IR	3.2V
-GND OF IR	GND
-OUT OF IR	PIN 4
-LED	PIN 6
+VSDSquadron Mini Pin	Connected To
+PA0 (GPIO Pin 0)	LED Anode (+)
+GND	LED Cathode (-) through 330Ω resistor
+Explanation: The PA0 pin is configured as an output to control the LED. The resistor prevents excessive current flow.
 ###Working
-The IR sensor is strategically placed in a location where it can detect the movement of individuals within its sensing range.
-The IR sensor continuously monitors its surroundings for any changes in infrared radiation caused by the movement of individuals.
-When someone enters the detection range of the IR sensor, it detects the change in radiation and triggers an output signal.
-When the IR sensor detects motion, it sends a signal to the microcontroller which then activates the LED lighting system. The LED lights up, providing illumination and the led will blink 3 times in the area where motion is detected which gives indication of motion detected.
-### code
-//These include the necessary header files (ch32v00x.h and debug.h) for the CH32V microcontroller and debugging purposes.
-#include <ch32v00x.h>
-#include <debug.h>
-//pin configuration
-void GPIO_Config(void)
-{
-GPIO_InitTypeDef GPIO_InitStructure = {0}; //structure variable GPIO_InitStructure of type GPIO_InitTypeDef which is used for GPIO configuration.
+The VSDSquadron Mini initializes the PA0 pin as an output.
+The program sets PA0 HIGH to turn the LED ON.
+A small delay is added.
+The program then sets PA0 LOW to turn the LED OFF.
+Another delay is added.
+This cycle repeats indefinitely, creating a blinking effect.
+### C code  
+#include <stdint.h>
+#include "vsd_delay.h"
+#include "vsd_gpio.h"
 
-RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE); // to Enable the clock for Port D
-//pin 4 OUT PIN FOR IR SENSOR
-GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 ; // Defines which Pin to configure
-GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // Defines Output Type
-GPIO_Init(GPIOD, &GPIO_InitStructure);
-//pin 6 IS LED PIN
-GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 ; //
-GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Defines Output Type
-GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // Defines speed
+#define LED_PIN 13 // Change this pin number based on your board's LED connection
 
-GPIO_Init(GPIOD, &GPIO_InitStructure);
+void main() {
+    // Configure LED pin as output
+    GPIO_SetMode(LED_PIN, GPIO_MODE_OUTPUT);
 
+    while (1) {
+        GPIO_Write(LED_PIN, 1); // Turn LED ON
+        delay_ms(500); // Wait for 500ms
+
+        GPIO_Write(LED_PIN, 0); // Turn LED OFF
+        delay_ms(500); // Wait for 500ms
+    }
 }
-//main function
+## Task 6
+Demostration of LED BLINKING PROJECT USING VSDSUADRON MINI BOARD
 
-int main(void)
-{
-uint8_t IR = 0;
-uint8_t set=1;
-uint8_t reset=0;
-uint8_t a=0;
-NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);// Configuring NVIC priority group
-SystemCoreClockUpdate();// Update System Core Clock
-Delay_Init();//Initialize Delay
-GPIO_Config();//Call GPIO configuration function
+https://github.com/user-attachments/assets/ca00b111-d894-4038-9bae-aeb23f9b984e
 
-while(1)
-{
-IR = GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_4);
-if (IR==1)//Read state of Pin 4 (IR sensor)
-{ // for blinking of led three times upon motion detection
-	for(a=0;a<3;a++){
-GPIO_WriteBit(GPIOD, GPIO_Pin_6, set);
-Delay_Ms(200);
-GPIO_WriteBit(GPIOD, GPIO_Pin_6,reset);
-Delay_Ms(100);}
 
-}
 
-}
-}
+
 
