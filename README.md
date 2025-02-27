@@ -49,7 +49,7 @@ VSDSquadron Mini Pin	Connected To
 PA0 (GPIO Pin 0)	LED Anode (+)
 GND	LED Cathode (-) through 330Ω resistor
 Explanation: The PA0 pin is configured as an output to control the LED. The resistor prevents excessive current flow.
-###Working
+### Working
 The VSDSquadron Mini initializes the PA0 pin as an output.
 The program sets PA0 HIGH to turn the LED ON.
 A small delay is added.
